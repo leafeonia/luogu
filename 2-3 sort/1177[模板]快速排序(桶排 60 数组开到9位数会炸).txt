@@ -1,0 +1,22 @@
+#include <iostream>
+#include <string.h>
+using namespace std;
+int main()
+{
+    
+    long long int a[100002];
+    int b[10000002];
+    memset(b,0, sizeof(b));
+    int n;
+    cin >> n;
+    for (int i = 0; i < n; ++i) {
+        cin >> a[i];
+        b[a[i]]++;
+    }
+    for (int j = 0; j < 10000001; ++j) {
+        for (int i = 0; i < b[j]; ++i) {
+            cout << j << " ";
+        }
+    }
+    return 0;
+}

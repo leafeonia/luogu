@@ -1,0 +1,28 @@
+//TLE 第一个元素变大，其他元素依然有序后排序，用不断右移第一个元素的方法即可，sort会超时
+#include <iostream>
+#include <algorithm>
+
+using namespace std;
+int main() {
+    freopen("in.txt","r",stdin);
+    int n;
+    cin >> n;
+    int a[10002];
+    for (int i = 0; i < n; ++i) {
+        cin >> a[i];
+    }
+    sort(a,a+n);
+    int ans = 0;
+    for (int i = 0; i < n - 1; ++i) {
+        ans += a[i] + a[i+1];
+        a[i+1] = a[i] + a[i+1];
+        for(int j = i + 1;j < n - 1;j++)
+        {
+            if(a[j] < a[j+1]) break;
+            swap(a[j],a[j+1]);
+        }
+       // sort(a+i+1,a+n);
+    }
+    cout << ans;
+    return 0;
+}

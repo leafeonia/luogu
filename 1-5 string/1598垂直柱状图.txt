@@ -1,0 +1,27 @@
+#include <iostream>
+#include <string>
+#include<cstdio>
+using namespace std;
+int main(){
+    int a[29] = {0};
+    string s;
+    for (int i = 0; i < 4; ++i) {
+        getline(cin,s);
+        for (int j = 0; j < s.length(); ++j) {
+            if(65 <= s[j] && s[j] <= 90)a[s[j] - 'A']++;
+        }
+    }
+    int max = -1;
+    for (int i = 0; i < 26; ++i) {
+        if(a[i] > max) max = a[i];
+    }
+    for (int i = max; i > 0; --i) {
+        for (int j = 0; j < 26; ++j) {
+            if(a[j] >= i) cout<< "* ";
+            else cout << "  ";
+        }
+        cout << endl;
+    }
+    printf("A B C D E F G H I J K L M N O P Q R S T U V W X Y Z");
+    return 0;
+}

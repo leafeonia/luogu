@@ -1,0 +1,259 @@
+//构造函数中visited会在建临时robot(current,next,origincurrent等)时被修改
+//如何优化：flag 和break的组合可以由exit代替
+#include <iostream>
+#include <queue>
+#include <vector>
+#include <string>
+#include <cstring>
+
+using namespace std;
+int n,m;
+int room[55][55];
+//int visited[55][55];
+typedef struct _cell{
+    int x;
+    int y;
+    bool operator == (const _cell &c1){
+        return (x == c1.x && y == c1.y);
+    }
+}cell;
+int directionvisited[55][55][5]; //0-S 1-E 2-N 3-W
+cell destination;
+class robot{
+public:
+    robot(int x,int y,char direction){
+        leftup.x = x;
+        leftup.y = y;
+        leftdown.x = x + 1;
+        leftdown.y = y;
+        rightup.x = x;
+        rightup.y = y + 1;
+        rightdown.x = x + 1;
+        rightdown.y = y + 1;
+        v.push_back(leftup);
+        v.push_back(rightup);
+        v.push_back(leftdown);
+        v.push_back(rightdown);
+        if(direction == 'S'){direx = 1;direy = 0;directionvisited[x][y][0] = 1;}
+        else if(direction == 'W'){direx = 0;direy = -1;directionvisited[x][y][3] = 1;}
+        else if(direction == 'N'){direx = -1;direy = 0;directionvisited[x][y][2] = 1;}
+        else {direx = 0;direy = 1;directionvisited[x][y][1] = 1;}
+       /* for (int i = 0; i < 4; ++i) {
+            visited[v[i].x][v[i].y] = 1;
+        }*/
+        movetime = 0;
+    }
+    void left(robot &r);
+    void right(robot &r);
+    bool creep(robot &r);
+    bool walk(robot &r);
+    bool run(robot &r);
+    cell getpos(){
+        return v[0];
+    }
+    int getmovetime(){
+        return movetime;
+    }
+    int direx;
+    int direy;
+    cell leftup;
+    cell leftdown;
+    cell rightup;
+    cell rightdown;
+    vector<cell> v;
+    int movetime;
+};
+int dire(robot r){
+    if(r.direx == 1) return 0;
+    else if (r.direx == -1) return 2;
+    else if (r.direy == 1) return 1;
+    else if (r.direy == -1) return 3;
+}
+bool left(robot &r) {
+    if (r.direx == 1) {
+        if (directionvisited[r.v[0].x][r.v[0].y][1]) { return false; }
+        else {
+            r.direx = 0;
+            r.direy = 1;
+            directionvisited[r.v[0].x][r.v[0].y][1] = 1;
+        }
+    } else if (r.direx == -1) {
+        if (directionvisited[r.v[0].x][r.v[0].y][3]) { return false; }
+        else {
+            r.direx = 0;
+            r.direy = -1;
+            directionvisited[r.v[0].x][r.v[0].y][3] = 1;
+        }
+    } else {
+        if (r.direy == 1) {
+            if (directionvisited[r.v[0].x][r.v[0].y][2]) { return false; }
+            else {
+                r.direx = -1;
+                r.direy = 0;
+                directionvisited[r.v[0].x][r.v[0].y][2] = 1;
+            }
+        }
+        else {
+            if (directionvisited[r.v[0].x][r.v[0].y][0]) { return false; }
+            else {
+                r.direx = 1;
+                r.direy = 0;
+                directionvisited[r.v[0].x][r.v[0].y][0] = 1;
+            }
+        };
+    }
+    r.movetime++;
+    return true;
+}
+bool right(robot &r)
+{
+    if(r.direx == 1)
+    {
+        if(directionvisited[r.v[0].x][r.v[0].y][3]){return false;}
+        else {
+            r.direx = 0;
+            r.direy = -1;
+            directionvisited[r.v[0].x][r.v[0].y][3] = 1;
+        }
+    }
+    else if(r.direx == -1){
+        if(directionvisited[r.v[0].x][r.v[0].y][1]){return false;}
+        else {
+            r.direx = 0;
+            r.direy = 1;
+            directionvisited[r.v[0].x][r.v[0].y][1] = 1;
+        }
+    }
+    else {
+        if (r.direy == 1) {
+            if (directionvisited[r.v[0].x][r.v[0].y][0]) { return false; }
+            else {
+                r.direx = 1;
+                r.direy = 0;
+                directionvisited[r.v[0].x][r.v[0].y][0] = 1;
+            }
+        }
+        else {
+            if (directionvisited[r.v[0].x][r.v[0].y][2]) { return false; }
+            else {
+                r.direx = -1;
+                r.direy = 0;
+                directionvisited[r.v[0].x][r.v[0].y][2] = 1;
+            }
+        };
+    }
+    r.movetime++;
+    return true;
+}
+bool creep(robot &r){
+    cell temp;
+    temp.x = r.v[0].x + r.direx;
+    temp.y = r.v[0].y + r.direy;
+    if(directionvisited[temp.x][temp.y][dire(r)])return false;
+    for (int i = 0; i < 4; ++i) {
+        r.v[i].x += r.direx;
+        r.v[i].y += r.direy;
+        if( room[r.v[i].x][r.v[i].y] == 1 || r.v[i].x< 1 || r.v[i].x > n || r.v[i].y < 1 || r.v[i].y > m) return false;
+    }
+    directionvisited[r.v[0].x][r.v[0].y][dire(r)] = 1;
+    r.movetime++;
+    return true;
+}
+
+bool walk(robot &r){
+    cell temp;
+        temp.x = r.v[0].x + 2*r.direx;
+        temp.y = r.v[0].y + 2*r.direy;
+        if(directionvisited[temp.x][temp.y][dire(r)])return false;
+    for (int i = 0; i <= 2; ++i) {
+        for (int j = 0; j < 4; ++j) {
+            temp.x = r.v[j].x + i*r.direx;
+            temp.y = r.v[j].y + i*r.direy;
+            if( room[temp.x][temp.y] == 1 || temp.x < 1 || temp.x > n || temp.y < 1 || temp.y > m) return false;
+        }
+    }
+    for (int i = 0; i < 4; ++i) {
+        r.v[i].x += 2*r.direx;
+        r.v[i].y += 2*r.direy;
+    }
+    directionvisited[r.v[0].x][r.v[0].y][dire(r)] = 1;
+    r.movetime++;
+    return true;
+}
+bool run(robot &r){
+    cell temp;
+    temp.x = r.v[0].x + 3*r.direx;
+    temp.y = r.v[0].y + 3*r.direy;
+    if(directionvisited[temp.x][temp.y][dire(r)]) return false;
+    for (int i = 0; i <= 3; ++i) {
+        for (int j = 0; j < 4; ++j) {
+            temp.x = r.v[j].x + i*r.direx;
+            temp.y = r.v[j].y + i*r.direy;
+            if( room[temp.x][temp.y] == 1 || temp.x < 1 || temp.x > n || temp.y < 1 || temp.y > m) return false;
+        }
+    }
+  /*  for (int i = 1; i <= 3; ++i) {
+        for (int j = 0; j < 4; ++j) {
+            temp.x = r.v[j].x + i*r.direx;
+            temp.y = r.v[j].y + i*r.direy;
+            visited[temp.x][temp.y] = 1;
+        }
+    }*/
+    for (int i = 0; i < 4; ++i) {
+        r.v[i].x += 3*r.direx;
+        r.v[i].y += 3*r.direy;
+    }
+    directionvisited[r.v[0].x][r.v[0].y][dire(r)] = 1;
+    r.movetime++;
+    return true;
+}
+void bfs(robot tyson){
+    queue<robot> q;
+    q.push(tyson);
+    cell currentpositon;
+    int flag = 0;
+    robot current(51,51,'E');
+    robot origincurrent(51,51,'E');
+    while(!q.empty()){
+        current = q.front();
+        q.pop();
+        origincurrent = current;
+        currentpositon = current.getpos();
+        if(currentpositon == destination) {cout << current.getmovetime();flag = 1;break;}
+        if(creep(current))
+            q.push(current);
+        current = origincurrent;
+        if(walk(current))
+            q.push(current);
+        current = origincurrent;
+        if(run(current))
+            q.push(current);
+        current = origincurrent;
+        if(left(current))
+            q.push(current);
+        current = origincurrent;
+        if(right(current))
+            q.push(current);
+        //current = origincurrent;
+    }
+    if(!flag) cout << -1;
+}
+int main() {
+    freopen("in.txt","r",stdin);
+   // memset(visited,0, sizeof(visited));
+    memset(directionvisited,0, sizeof(directionvisited));
+    cin >> n >> m;
+    for (int i = 1; i <= n; ++i) {
+        for (int j = 1; j <= m; ++j) {
+            cin >> room[i][j];
+        }
+    }
+    int xx,yy;
+    cin >> xx >> yy;
+    cin >> destination.x >> destination.y;
+    char direction;
+    cin >> direction;
+    robot tyson(xx,yy,direction);
+    bfs(tyson);
+    return 0;
+}

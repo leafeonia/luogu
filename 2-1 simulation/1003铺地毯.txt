@@ -1,0 +1,35 @@
+#include <iostream>
+using namespace std;
+typedef struct _Point{
+    int x;
+    int y;
+}Point;
+typedef struct _Carpet{
+    Point base;
+    int x;
+    int y;
+}Carpet;
+
+int main() {
+    freopen("in.txt","r",stdin);
+    Carpet carpet[10002];
+    int n;
+    cin >> n;
+    for (int i = 0; i < n; ++i) {
+        cin >> carpet[i].base.x >> carpet[i].base.y >> carpet[i].x >> carpet[i].y;
+    }
+    Point f;
+    cin >> f.x >> f.y;
+    int flag = 0;
+    for (int j = n - 1; j >= 0 ; --j) {
+        if (f.x >= carpet[j].base.x && f.x <= carpet[j].base.x + carpet[j].x
+                && f.y >= carpet[j].base.y && f.y <= carpet[j].base.y + carpet[j].y)
+        {
+            cout << j+1 << endl;
+            flag = 1;
+            break;
+        }
+    }
+    if(!flag)cout << -1 << endl;
+    return 0;
+}

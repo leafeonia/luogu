@@ -1,0 +1,39 @@
+//debug 1 cmp函数大于号与小于号
+#include <iostream>
+#include <algorithm>
+#include <cstring>
+
+using namespace std;
+typedef struct _student{
+    int chinese;
+    int maths;
+    int english;
+    int id;
+}Student;
+bool cmp(Student s1,Student s2)
+{
+    int tot1 = s1.chinese+s1.maths+s1.english;
+    int tot2 = s2.maths+s2.chinese+s2.english;
+    if(tot1 > tot2) return true;
+    else if (tot1 < tot2) return false;
+    if (s1.chinese > s2.chinese) return true;
+    else if (s1.chinese < s2.chinese) return false;
+    if(s1.id < s2.id)return true;
+    else return false;
+}
+int main() {
+ 
+    Student student[302];
+    memset(student,0, sizeof(student));
+    int n;
+    cin >> n;
+    for (int i = 0; i < n; ++i) {
+        cin >> student[i].chinese >> student[i].maths >> student[i].english;
+        student[i].id = i+1;
+    }
+    sort(student,student+n,cmp);
+    for (int i = 0; i < 5; ++i) {
+        cout << student[i].id << " " << student[i].chinese+ student[i].maths+student[i].english << endl;
+    }
+    return 0;
+}

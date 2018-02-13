@@ -1,0 +1,49 @@
+//debug +line24 访问到值不为-1的点要直接返回，否则……无限循环，电脑爆炸
+#include <iostream>
+#include <cstdio>
+#include <queue>
+#include <string.h>
+using namespace std;
+typedef struct _point{
+    int x;
+    int y;
+    int breadth;
+}point;
+queue<point> q;
+int n,m;
+int a[403][403];
+int dire[10][4] = {{1,2},{1,-2},{2,1},{2,-1},{-1,-2},{-1,2},{-2,1},{-2,-1}};
+void bfs(queue<point> q,point start)
+{
+    q.push(start);
+    point next;
+    while(!q.empty()) {
+        point current = q.front();
+        q.pop();
+        if (current.x < 1 || current.x > n || current.y < 1 || current.y > m) continue;
+        if (a[current.x][current.y] != -1)continue;
+        a[current.x][current.y] = current.breadth;
+        for (int i = 0; i < 8; ++i) {
+            next.x = current.x + dire[i][0];
+            next.y = current.y + dire[i][1];
+            next.breadth = current.breadth + 1;
+            q.push(next);
+        }
+    }
+}
+using namespace std;
+int main() {
+    freopen("in.txt","r",stdin);
+    memset(a,-1, sizeof(a));
+    point start;
+    cin >> n >> m >> start.x >> start.y;
+    start.breadth = 0;
+    bfs(q,start);
+    for (int i = 1; i <= n; ++i) {
+        for (int j = 1; j <= m; ++j) {
+            printf("%-5d",a[i][j]);
+        }
+        cout << endl;
+    }
+    return 0;
+}

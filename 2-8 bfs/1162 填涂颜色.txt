@@ -1,0 +1,73 @@
+//debug visited和queue每次都要初始化
+#include <iostream>
+#include <queue>
+#include <string.h>
+using namespace std;
+typedef struct _point{
+    int x;
+    int y;
+}point;
+int dire[5][4] = {{1,0},{0,1},{-1,0},{0,-1}};
+queue<point> q;
+int n;
+int a[33][33];
+int visited[33][33] = {0};
+int wayout(int i,int j){
+    memset(visited,0, sizeof(visited));
+    int out = 0;
+    point start;
+    start.x = i;start.y = j;
+    q.push(start);
+    point next;
+    point current;
+    while(!q.empty())
+    {
+        current = q.front();
+        q.pop();
+        visited[current.x][current.y] = 1;
+        if(current.x < 1 || current.x > n || current.y < 1 || current.y > n){out = 1;break;}
+        for (int k = 0; k < 4; ++k) {
+            next.x = current.x + dire[k][0];
+            next.y = current.y + dire[k][1];
+            if(!visited[next.x][next.y] && !a[next.x][next.y]) {q.push(next),visited[next.x][next.y] = 1;}
+        }
+    }
+    return out;
+
+}
+int main() {
+    cin >> n;
+    for (int i = 1; i <= n; ++i) {
+        for (int j = 1; j <= n; ++j) {
+            cin >> a[i][j];
+        }
+    }
+    int flag = 0;
+    for (int i = 1; i <= n; ++i) {
+        for (int j = 1; j <= n; ++j) {
+            if(a[i][j] == 0)
+            {
+                if(!wayout(i,j)){
+                    a[i][j] = 2;
+                  /*  flag = 1;
+                    for (int k = 0; k < n; ++k) {
+                        for (int l = 0; l < n; ++l) {
+                            if(visited[k][l]) a[k][l] = 2;
+                        }
+                    }*/
+
+                }
+                q = queue<point>();
+            }
+         //   if(flag) break;
+        }
+       // if(flag) break;
+    }
+    for (int i = 1; i <= n; ++i) {
+        for (int j = 1; j <= n; ++j) {
+            cout << a[i][j] << " ";
+        }
+        cout << endl;
+    }
+    return 0;
+}

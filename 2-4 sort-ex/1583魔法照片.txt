@@ -1,0 +1,41 @@
+//WA1 忘记考虑W[i]相等的情况
+//参考题解收获：cmp函数简化 return p1.originWeight == p2.originWeight ? p1.id < p2.id : p1.originWeight > p2.originWeight
+#include <iostream>
+#include <algorithm>
+#include <cstring>
+
+using namespace std;
+typedef struct _person{
+    int id;
+    int originWeight;
+}person;
+bool cmp1(person p1,person p2)
+{
+    if(p1.originWeight > p2.originWeight) return true;
+    else if (p1.originWeight < p2.originWeight) return false;
+    if(p1.id < p2.id) return true;
+    else return false;
+}
+int main() {
+    freopen("in.txt","r",stdin);
+    int n,k;
+    cin >> n >> k;
+    int kk[12];
+    for (int i = 1; i < 11; ++i) {
+        cin >> kk[i];
+    }
+    person a[20002];
+    for (int i = 1; i <= n; ++i) {
+        cin >> a[i].originWeight;
+        a[i].id = i;
+    }
+    sort(a+1,a+n+1,cmp1);
+    for (int i = 1; i <= n; ++i) {
+        a[i].originWeight = kk[(i - 1)%10+1] + a[i].originWeight;
+    }
+    sort(a+1,a+n+1,cmp1);
+    for (int i = 1; i <= k; ++i) {
+        cout << a[i].id << " ";
+    }
+    return 0;
+}

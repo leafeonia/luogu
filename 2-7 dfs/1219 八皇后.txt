@@ -1,0 +1,43 @@
+//debug ==打成= 终止条件是n+1不是n 
+#include <iostream>
+#include <string>
+#include <algorithm>
+using namespace std;
+int row[15] = {0};
+int col[15] = {0};
+int dialeft[28] = {0};
+int diaright[28] = {0};
+int a[15] = {0};
+int n;
+int cnt = 0;
+string ans[100000];
+void dfs(int currentrow){
+    if(currentrow == n + 1)
+    {
+        cnt++;
+        for (int i = 1; i <= n; ++i) {
+            ans[cnt].push_back(a[i]+'0');
+        }
+    }
+    for (int i = 1; i <= n; ++i) {
+        if(col[i] == 1 || dialeft[i+currentrow] == 1 || diaright[n - i + currentrow] == 1)continue;
+        col[i] = 1;dialeft[i+currentrow] = 1;diaright[n - i +currentrow] = 1;
+        a[currentrow] = i;
+        dfs(currentrow+1);
+        col[i] = 0;dialeft[i+currentrow] = 0;diaright[n - i +currentrow] = 0;
+    }
+}
+int main() {
+    freopen("in.txt","r",stdin);
+    cin >> n;
+    dfs(1);
+    //sort(ans + 1,ans + cnt + 1);
+    for (int i = 1; i <= 3; ++i) {
+        for (int j = 0; j < ans[i].length(); ++j) {
+            cout << ans[i][j] - '0' << " ";
+        }
+        cout << endl;
+    }
+    cout << cnt;
+    return 0;
+}

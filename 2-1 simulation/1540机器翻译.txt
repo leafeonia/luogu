@@ -1,0 +1,49 @@
+#include <iostream>
+using namespace std;
+int main() {
+    int m,n;
+    cin >> m >> n;
+    int cnt = 0;
+    int inner[102];
+    int le = 0;
+    int word;
+    for (int i = 0; i < n; ++i) {
+        cin >> word;
+        if(le < m)
+        {
+            int found = 0;
+            for (int j = 0; j < le; ++j) {
+                if(inner[j] == word)
+                {
+                    found = 1;
+                    break;
+                }
+            }
+            if(!found) {
+                inner[le] = word;
+                le++;
+                cnt++;
+            }
+        }
+        else{
+            int found = 0;
+            for (int j = 0; j < le; ++j) {
+                if(inner[j] == word)
+                {
+                    found = 1;
+                    break;
+                }
+            }
+            if(!found)
+            {
+                for (int j = 0; j < le-1; ++j) {
+                    inner[j] = inner[j+1];
+                }
+                inner[le-1] = word;
+                cnt++;
+            }
+        }
+    }
+    cout << cnt << endl;
+    return 0;
+}

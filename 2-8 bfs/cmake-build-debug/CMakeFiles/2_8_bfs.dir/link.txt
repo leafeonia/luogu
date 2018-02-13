@@ -1,0 +1,1 @@
+/usr/bin/c++.exe -g  -Wl,--enable-auto-import CMakeFiles/2_8_bfs.dir/main.cpp.o  -o 2_8_bfs.exe -Wl,--out-implib,lib2_8_bfs.dll.a -Wl,--major-image-version,0,--minor-image-version,0 

@@ -1,0 +1,32 @@
+//WA 终点也可能是个障碍点【没想到吧
+#include <iostream>
+using namespace std;
+int cnt = 0;
+int n,m,sx,sy,fx,fy;
+int maze[7][7] = {0};
+void dfs(int x,int y)
+{
+    if(x < 1 || y < 1 || x > n || y > m) return;
+    if(x == fx && y == fy && maze[x][y] == 0){ cnt++;return;}
+    if(maze[x][y] == 0){
+        maze[x][y] = 1;
+        dfs(x+1,y);
+        dfs(x,y+1);
+        dfs(x-1,y);
+        dfs(x,y-1);
+        maze[x][y] = 0;
+    }
+}
+int main() {
+    int t;
+    cin >> n >> m >> t;
+    cin >> sx >> sy >> fx >> fy;
+    int xx,yy;
+    for (int i = 0; i < t; ++i) {
+        cin >> xx >> yy;
+        maze[xx][yy] = 1;
+    }
+    dfs(sx,sy);
+    cout << cnt;
+    return 0;
+}

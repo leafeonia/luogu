@@ -1,0 +1,87 @@
+//debug (1)string数组a变成int数组board忘记减'0'
+//      (2)两个&&判断那行里next打成target
+#include <iostream>
+#include <queue>
+#include <string>
+#include <cstring>
+
+using namespace std;
+int n,m;
+int ans = 0;
+string a[1003];
+int board[1003][1003];
+int answer[1003][1003];
+bool visited[1003][1003]={0};//1003
+typedef struct _point{
+    int x;
+    int y;
+}point;
+point target[100003];//100003
+int dire[5][4] = {{1,0},{-1,0},{0,1},{0,-1}};
+void dfs(point target){
+    ans++;
+    point next;
+    for (int i = 0; i < 4; ++i) {
+        next.x = target.x + dire[i][0];
+        next.y = target.y + dire[i][1];
+        if(!(next.x < 1 || next.y < 1 || next.x > n || next.y > n) && (board[next.x][next.y] + board[target.x][target.y] == 1) &&(!visited[next.x][next.y]) )
+        {
+            visited[next.x][next.y] = true;
+            dfs(next);
+        }
+    }
+}/*
+queue<point> q;
+void bfs(point start){
+    q.push(start);
+    point next,current;
+    ans++;
+    while(!q.empty())
+    {
+        current = q.front();
+        q.pop();
+        for (int i = 0; i < 4; ++i) {
+            next.x = current.x + dire[i][0];
+            next.y = current.y + dire[i][1];
+            if(answer[next.x][next.y] == -1 && !(next.x < 1 || next.y < 1 || next.x > n || next.y > n) && (board[next.x][next.y] + board[current.x][current.y] == 1) &&(!visited[next.x][next.y]) )
+            {
+                visited[next.x][next.y] = true;
+                ans++;
+                q.push(next);
+            }
+        }
+
+    }
+}*/
+int main() {
+    freopen("in.txt","r",stdin);
+    memset(answer,-1, sizeof(answer));
+    cin >> n >> m;
+    for (int i = 1; i <= n; ++i) {
+        cin >> a[i];
+    }
+    for (int i = 1; i <= n ; ++i) {
+        for (int j = 0; j < n; ++j) {
+            board[i][j+1] = a[i][j] - '0';
+        }
+    }
+    for (int i = 1; i <= m; ++i) {
+        cin >> target[i].x >> target[i].y;
+    }
+    for (int i = 1; i <= m; ++i) {
+        if(answer[target[i].x][target[i].y] == -1) {
+            ans = 0;
+            memset(visited, 0, sizeof(visited));
+            visited[target[i].x][target[i].y] = 1;
+            dfs(target[i]);
+            //bfs(target[i]);
+            for (int j = 1; j <= n; ++j) {
+                for (int k = 1; k <= n; ++k) {
+                    if (visited[j][k]) answer[j][k] = ans;
+                }
+            }
+        }
+        cout << answer[target[i].x][target[i].y] <<endl;
+    }
+    return 0;
+}

@@ -1,0 +1,56 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+typedef struct Point
+{
+    int x;
+    int y;
+    int weight;
+    Point(int xx,int yy,int ww):x(xx),y(yy),weight(ww){};
+}point;
+
+point maxx(int a[22][22]);
+int dis(point x,point y);
+int m,n,t;
+
+int main() {
+    freopen("in.txt","r",stdin);
+    cin >> m >> n >> t;
+    int field[22][22];
+    for (int i = 1; i <= m; ++i) {
+        for (int j = 1; j <= n; ++j) {
+            cin >> field[i][j];
+        }
+    }
+    point monkey(0,maxx(field).y,0);
+    while(t >= dis(monkey,maxx(field))+ maxx(field).x + 1)
+    {
+        t = t - dis(monkey,maxx(field)) - 1;
+        monkey.x = maxx(field).x;
+        monkey.y = maxx(field).y;
+        monkey.weight += maxx(field).weight;
+        field[monkey.x][monkey.y] = 0;
+    }
+    cout << monkey.weight << endl;
+    return 0;
+}
+point maxx(int a[22][22])
+{
+    point result(0,0,-1);
+    for (int i = 1; i <= m; ++i) {
+        for (int j = 1; j <= n; ++j) {
+            if(a[i][j] > result.weight)
+            {
+                result.weight = a[i][j];
+                result.x = i;
+                result.y = j;
+            }
+        }
+    }
+    return result;
+}
+
+int dis(point x,point y)
+{
+    return (abs(x.x - y.x) + abs(x.y - y.y));
+}

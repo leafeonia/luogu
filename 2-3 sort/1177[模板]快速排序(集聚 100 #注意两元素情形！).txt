@@ -1,0 +1,81 @@
+#include <iostream>
+using namespace std;
+void qsort(long long int a[],int _left,int _right)
+{
+    int left = _left + 1;
+    int right = _right;
+    int temp = 0;
+    int repe_r = right;
+    int repe_l = left;
+    int repe_r_le = 0;
+    int repe_l_le = 0;
+    int mid;
+    if(right == left)
+    {
+        if(a[_right] < a[_left]) swap(a[_right],a[_left]);
+    }
+    else if(right > left)
+    {
+        mid = _left + (right - _left)/2;
+        if(a[mid]>a[right]) swap(a[mid],a[right]);
+        if(a[_left] > a[right]) swap(a[_left],a[right]);
+        if(a[mid] > a[_left]) swap(a[mid],a[_left]);
+        temp = a[_left];
+        while(right!=left)
+        {
+            while(a[right] >= temp && right > left)
+            {
+                if(a[right] == temp)
+                {
+                    swap(a[right],a[repe_r]);
+                    repe_r--;
+                    repe_r_le++;
+                }
+                right--;
+            }
+            while(a[left] <= temp && right > left) {
+                if(a[left] == temp)
+                {
+                    swap(a[left],a[repe_l]);
+                    repe_l++;
+                    repe_l_le++;
+                }
+                left++;
+            }
+            swap(a[left],a[right]);
+        }
+        swap(a[_left],a[right]);
+        int i = left - 1;
+        int j = _left + 1;
+        while(j < repe_l && a[i]!= temp) //此时repe_l是最后一个重复元素的下一个元素的下标
+        {
+            swap(a[i],a[j]);
+            j++;
+            i--;
+        }
+        i = right + 1;
+        j = _right;
+        while(j > repe_r && a[i]!= temp)
+        {
+            swap(a[i],a[j]);
+            j--;
+            i++;
+        }
+        qsort(a,_left,left-1-repe_l_le);
+        qsort(a,right+1+repe_r_le,_right);
+    }
+}
+int main() {
+    freopen("in.txt","r",stdin);
+    int n;
+    cin >> n;
+    long long int a[100002];
+    for (int i = 0; i < n; ++i) {
+        cin >> a[i];
+    }
+    qsort(a,0,n-1);
+    for (int j = 0; j < n; ++j) {
+        cout << a[j] << " ";
+    }
+    return 0;
+}

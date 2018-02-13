@@ -1,0 +1,43 @@
+//debug1 2n -> 2*n
+//RE1 忽视数据的10^8量级 int爆炸
+//WA1 sort(a+1,a+2*n+1,cmp)习惯性写成sort(a,a+2*n+1,cmp)
+//WA2(按道理应该是RE)接上条，200000的数组开成100000
+#include <iostream>
+#include <algorithm>
+typedef struct _player{
+    int id;
+    long long int point;
+    long long int ability;
+}player;
+using namespace std;
+bool cmp(player p1,player p2)
+{
+    return (p1.point  == p2.point ? p1.id < p2.id : p1.point > p2.point);
+}
+bool cmp2(player p1,player p2)
+{
+    return p1.ability > p2.ability;
+}
+int main() {
+    freopen("in.txt","r",stdin);
+    int n,r,q;
+    cin >> n >> r >> q;
+    player a[200002];
+    player b[200002];
+    for (int i = 1; i <= 2*n; ++i) {
+        cin >> a[i].point;
+        a[i].id = i;
+    }
+    for (int i = 1; i <= 2*n; ++i) {
+        cin >> a[i].ability;
+    }
+    for (int i = 0; i < r; ++i) {
+        sort(a+1,a+2*n+1,cmp);
+        for (int j = 1; j <= 2*n - 1; j = j+2) {
+            a[j].ability > a[j+1].ability ? a[j].point++ : a[j+1].point++;
+        }
+    }
+    sort(a+1,a+2*n+1,cmp);
+    cout << a[q].id;
+    return 0;
+}

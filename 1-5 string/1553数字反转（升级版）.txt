@@ -1,0 +1,76 @@
+//debug1 判断string的某一位是否等于'0',而不是0
+//WA1 0.0 -> .
+//WA2 0 增加74行
+#include <iostream>
+#include <string>
+using namespace std;
+int main(){
+    freopen("in.txt","r",stdin);
+    string s;
+    cin >> s;
+    for (int i = 0; i < s.length(); ++i) {
+        if(s[i] == '.' || s[i] == '/'){
+            for (int j = 0; j < i/2; ++j) {
+                swap(s[j],s[i - 1 -j]);
+            }
+            int flag = 0;
+            for (int j = 0; j < i; ++j) {
+                if(s[j]!= '0') flag = 1;
+                if(flag) cout<< s[j];
+            }
+            if(!flag) cout << '0';
+            if(s[i] == '.')cout << '.';
+            else cout << '/';
+            for (int j = i + 1; j < (s.length()+ i + 1)/2; ++j) {
+                swap(s[j],s[s.length() - (j - i)]);
+            }
+            if(s[i] == '.') {
+                cout << s[i + 1];
+                for (int j = i + 2; j < s.length(); ++j) {
+                    int flag2 = 0;
+                    for (int k = j; k < s.length(); ++k) {
+                        if (s[k] != '0') flag2 = 1;
+                    }
+                    if (!flag2) break;
+                    cout << s[j];
+                }
+            }
+            else
+            {
+                int flag = 0;
+                for (int j = i + 1; j < s.length(); ++j) {
+                    if(s[j]!= '0') flag = 1;
+                    if(flag) cout<< s[j];
+                }
+            }
+            return 0;
+        }
+
+        else if(s[i] == '%')
+        {
+            for (int j = 0; j < i/2; ++j) {
+                swap(s[j],s[i - 1 -j]);
+            }
+            int flag = 0;
+            for (int j = 0; j < i; ++j) {
+                if(s[j]!= '0') flag = 1;
+                if(flag) cout<< s[j];
+            }
+            if(!flag)cout<< '0';
+            cout << '%';
+            return 0;
+        }
+
+    }
+     //整数
+    for (int j = 0; j < s.length()/2; ++j) {
+        swap(s[j],s[s.length() - 1 -j]);
+    }
+    int flag = 0;
+    for (int j = 0; j < s.length(); ++j) {
+        if(s[j]!= '0') flag = 1;
+        if(flag) cout<< s[j];
+    }
+    if(!flag)cout << '0';
+    return 0;
+}

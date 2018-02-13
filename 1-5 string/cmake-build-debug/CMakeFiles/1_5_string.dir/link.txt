@@ -1,0 +1,1 @@
+/usr/bin/c++.exe -g  -Wl,--enable-auto-import CMakeFiles/1_5_string.dir/main.cpp.o  -o 1_5_string.exe -Wl,--out-implib,lib1_5_string.dll.a -Wl,--major-image-version,0,--minor-image-version,0 

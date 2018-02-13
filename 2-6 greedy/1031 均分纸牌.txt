@@ -1,0 +1,34 @@
+// 8 12 10 8 12 
+// -2 2 0  -2 2
+// -2 0 0  -2 0
+//输出第三行非0数的个数即为解 我也不知道这是什么原理
+#include <iostream>
+using namespace std;
+int main() {
+    freopen("in.txt","r",stdin);
+   int n;
+    cin >> n;
+    int card[102];
+    int sum = 0;
+    for (int i = 0; i < n; ++i) {
+        cin >> card[i];
+        sum+= card[i];
+    }
+    int ave = sum / n;
+    for (int i = 0; i < n; ++i) {
+        card[i] -= ave;
+    }
+    int tmp = 0;
+    int s = 0;
+    for (int i = 0; i < n; ++i) {
+        tmp = card[i];
+        s += tmp;
+        card[i] = s;
+    }
+    int ans = 0;
+    for (int i = 0; i < n; ++i) {
+        if(card[i]!= 0) ans++;
+    }
+    cout << ans;
+    return 0;
+}

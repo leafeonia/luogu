@@ -1,0 +1,43 @@
+//WA Failed打成failed 排除一对多，未排除多对一
+#include <iostream>
+#include <string>
+#include <map>
+
+using namespace std;
+int main() {
+    freopen("in.txt","r",stdin);
+    int flag = 1;
+    map<char,char> code;
+    string coded;
+    string ori;
+    string wanted;
+    cin >> coded;
+    cin >> ori;
+    cin >> wanted;
+    for (int i = 0; i < coded.length(); ++i) {
+        if(!code.count(coded[i])) {
+            for (map<char,char>::iterator it = code.begin();it!= code.end();it++) { //检查原文中的字母是否已被映射过，防止多对一
+                if (it->second == ori[i]){
+                    flag = 0;
+                    break;
+                }
+            }
+            if(!flag)break;
+            code[coded[i]] = ori[i];}
+        else
+        {
+            if(ori[i] != code[coded[i]]) //防止一对多的情况
+            {
+                flag = 0;
+                break;
+            }
+        }
+    }
+    if(code.size() < 26) flag = 0;
+    if(flag)
+        for (int i = 0; i < wanted.length(); ++i) {
+            cout << code[wanted[i]];
+        }
+    else cout << "Failed";
+    return 0;
+}
