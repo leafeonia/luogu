@@ -1,0 +1,47 @@
+
+#include <iostream>
+#include <cstring>
+#include <cmath>
+using namespace std;
+char totem[1026][2050];
+char pattern[1026][2050];
+int n;
+void draw(int leftup_x,int leftup_y,int height,int width){
+    for (int i = 0; i < height; ++i) {
+        for (int j = 0; j < width; ++j) {
+            pattern[leftup_x+i][leftup_y+j] = totem[i][j];
+        }
+    }
+}
+void solve(int depth){
+    if(depth > n) return;
+    memset(pattern,' ', sizeof(pattern));
+    if(depth == 1)draw(0,0,2,4);
+    else {
+        draw(0, pow(2, depth - 1), pow(2, depth - 1), pow(2, depth));
+        draw(pow(2, depth - 1), 0, pow(2, depth - 1), pow(2, depth));
+        draw(pow(2, depth - 1), pow(2, depth), pow(2, depth - 1), pow(2, depth));
+        memset(totem,' ', sizeof(totem));
+        memcpy(totem, pattern, sizeof(pattern));
+    }
+    solve(depth+1);
+}
+int main(){
+    freopen("in.txt","r",stdin);
+    //freopen("out.txt","w",stdout);
+    cin >> n;
+    memset(totem,' ', sizeof(totem));
+    memset(pattern,' ', sizeof(pattern));
+    totem[0][1] = totem[1][0] = '/';
+    totem[0][2] = totem[1][3] = '\\';
+    totem[1][1] = totem[1][2] = '_';
+    solve(1);
+    for (int i = 0; i < pow(2,n); ++i) {
+        for (int j = 0; j < pow(2,n+1); ++j) {
+            cout << pattern[i][j];
+        }
+        cout << endl;
+    }
+
+    return 0;
+}
