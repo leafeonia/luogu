@@ -1,0 +1,3 @@
+/cygdrive/d/NJU/luogu/2-10 partition/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/cygdrive/d/NJU/luogu/2-10 partition/cmake-build-debug/CMakeFiles/edit_cache.dir
+/cygdrive/d/NJU/luogu/2-10 partition/cmake-build-debug/CMakeFiles/2_10_partition.dir
