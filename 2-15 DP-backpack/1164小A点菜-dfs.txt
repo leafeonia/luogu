@@ -1,0 +1,33 @@
+#include <iostream>
+#include <string.h>
+using namespace std;
+int n,m;
+int a[102],b[102];
+void dfs(int money,int num,int &cnt);
+int main() {
+    int cnt = 0;
+    cin >> n >> m;
+    memset(a,0, sizeof(a));
+    memset(b,0, sizeof(b));
+    for (int i = 0; i < n; ++i) {
+        cin >> a[i];
+    }
+    dfs(0,0,cnt);
+    cout << cnt << endl;
+    return 0;
+}
+void dfs(int money,int num,int &cnt)
+{
+        if(money > m) return;
+        else if(money == m) cnt++;
+        else {
+            for (int i = num; i < n; ++i) {
+                if (b[i] == 0) {
+                    b[i] = 1;
+                    dfs(money + a[i], i + 1, cnt);
+                    b[i] = 0;
+                }
+            }
+        }
+
+}
