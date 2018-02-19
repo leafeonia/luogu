@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #include <iostream>
 #include <queue>
 #include <cmath>
@@ -43,4 +44,51 @@ int main(){
     cin >> n;
     solve(n);
     return 0;
+=======
+#include <iostream>
+#include <queue>
+#include <cmath>
+using namespace std;
+void solve(int n){
+    queue<int> temp;
+    int num = 0;
+    while(n!=0) {
+        int power = 0;
+        while (pow(2, power + 1) <= n) power++;
+        n -= pow(2,power);
+        temp.push(power);
+        num++;
+    }
+    while(num > 1){
+        int cur = temp.front() ;
+        if(cur == 2) cout << "2(2)";
+        else if(cur == 1) cout << "2";
+        else if(cur == 0) cout << "2(0)";
+        else {
+            cout << "2(";
+            solve(cur);
+            cout << ")";
+        }
+        num --;
+        cout << "+";
+        temp.pop();
+    }
+    int cur = temp.front() ;
+    if(cur == 2) cout << "2(2)";
+    else if(cur == 1) cout << "2";
+    else if(cur == 0) cout << "2(0)";
+    else {
+        cout << "2(";
+        solve(cur);
+        cout << ")";
+    }
+    temp.pop();
+}
+int main(){
+    freopen("in.txt","r",stdin);
+    int n;
+    cin >> n;
+    solve(n);
+    return 0;
+>>>>>>> 8a100812d5e712997a97caadbea575ed71071472
 }

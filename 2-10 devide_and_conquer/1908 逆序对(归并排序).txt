@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 #include <iostream>
 #include <algorithm>
@@ -35,4 +36,43 @@ int main(){
     merge_sort(a,1,n,temp);
     cout << ans;
     return 0;
+=======
+
+#include <iostream>
+#include <algorithm>
+
+using namespace std;
+int ans = 0;
+void merge_sort(int a[],int start,int end,int temp[]){
+    if(start == end)return;
+    int mid = (start + end)/2;
+    int start_cnt = start;int mid_cnt = mid+1;
+    int i = 0;
+    merge_sort(a,start,mid,temp);
+    merge_sort(a,mid+1,end,temp);
+    while(start_cnt <= mid || mid_cnt <= end){
+        if(mid_cnt > end || (start_cnt <= mid && a[start_cnt] < a[mid_cnt])) temp[i++] = a[start_cnt++];
+        else {
+            temp[i++] = a[mid_cnt++];
+            ans += (mid + 1 - start_cnt);
+        }
+    }
+    for (int j = 0; j <= end - start; ++j) {
+        a[start+j] = temp[j];
+    }
+}
+
+int main(){
+    freopen("in.txt","r",stdin);
+    int n;
+    cin >> n;
+    int a[40002];
+    int temp[40002];
+    for (int i = 1; i <= n; ++i) {
+        cin >> a[i];
+    }
+    merge_sort(a,1,n,temp);
+    cout << ans;
+    return 0;
+>>>>>>> 8a100812d5e712997a97caadbea575ed71071472
 }

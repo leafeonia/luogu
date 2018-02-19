@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 C:\Users\lenovo\.CLion2017.2\system\cygwin_cmake\bin\cmake.exe -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" "/cygdrive/d/NJU/luogu/2-9 search-ex"
 -- The C compiler identification is GNU 6.4.0
 -- The CXX compiler identification is GNU 6.4.0
@@ -20,3 +21,6 @@ C:\Users\lenovo\.CLion2017.2\system\cygwin_cmake\bin\cmake.exe -DCMAKE_BUILD_TYP
 =======
 CMakeLists.txt not found in D:\NJU\luogu\2-9 search-ex
 >>>>>>> temp-branch
+=======
+CMakeLists.txt not found in D:\NJU\luogu\2-9 search-ex
+>>>>>>> 8a100812d5e712997a97caadbea575ed71071472

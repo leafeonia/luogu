@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 #include <iostream>
 #include <cstdio>
@@ -48,4 +49,52 @@ int main() {
     dfs(start,0,0);
     printf("%.2f",rat_record);
     return 0;
+=======
+
+#include <iostream>
+#include <cstdio>
+#include <vector>
+#include <cmath>
+#include <stdlib.h>
+typedef struct _point{
+    double x;
+    double y;
+    _point(double x = 0.0,double y = 0.0):x(x),y(y){};
+}point;
+#define dist(a,b) (sqrt((a.x - b.x)*(a.x - b.x) + (a.y - b.y)* (a.y - b.y)))
+double rat_record = 100000000;
+int n;
+point pointlist[17];
+int stolen[17];
+void dfs(point position,double distance,int cheese){
+    if(distance > rat_record) return;
+    if(cheese == n){
+        if(distance < rat_record) rat_record = distance;
+        return;
+    }
+    point updated_pos;
+    for (int i = 0; i < n; ++i) {
+        if(stolen[i]) continue;
+        stolen[i] = 1;
+        distance += dist(position,pointlist[i]);
+        updated_pos = pointlist[i];
+        cheese++;
+        dfs(updated_pos,distance,cheese);
+        cheese--;
+        distance -= dist(position,pointlist[i]);
+        stolen[i] = 0;
+    }
+}
+using namespace std;
+int main() {
+    //freopen("in.txt","r",stdin);
+    cin >> n;
+    for (int i = 0; i < n; ++i) {
+       cin >> pointlist[i].x >> pointlist[i].y;
+    }
+    point start(0.0,0.0);
+    dfs(start,0,0);
+    printf("%.2f",rat_record);
+    return 0;
+>>>>>>> 8a100812d5e712997a97caadbea575ed71071472
 }

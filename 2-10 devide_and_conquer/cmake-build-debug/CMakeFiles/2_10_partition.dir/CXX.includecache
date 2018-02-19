@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
 
 #IncludeRegexScan: ^.*$
@@ -12,3 +13,19 @@ iostream
 cstring
 -
 
+=======
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/cygdrive/d/NJU/luogu/2-10 partition/main.cpp
+iostream
+-
+cstring
+-
+
+>>>>>>> 8a100812d5e712997a97caadbea575ed71071472
