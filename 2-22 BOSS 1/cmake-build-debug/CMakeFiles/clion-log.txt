@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-C:\Users\lenovo\.CLion2017.2\system\cygwin_cmake\bin\cmake.exe -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" "/cygdrive/d/NJU/luogu/2-9 search-ex"
+C:\Users\lenovo\.CLion2017.2\system\cygwin_cmake\bin\cmake.exe -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" "/cygdrive/d/NJU/luogu/2-22 BOSS 1"
 -- The C compiler identification is GNU 6.4.0
 -- The CXX compiler identification is GNU 6.4.0
 -- Check for working C compiler: /usr/bin/cc
@@ -16,7 +15,4 @@ C:\Users\lenovo\.CLion2017.2\system\cygwin_cmake\bin\cmake.exe -DCMAKE_BUILD_TYP
 -- Detecting CXX compile features - done
 -- Configuring done
 -- Generating done
--- Build files have been written to: /cygdrive/d/NJU/luogu/2-9 search-ex/cmake-build-debug
-=======
-CMakeLists.txt not found in D:\NJU\luogu\2-9 search-ex
->>>>>>> temp-branch
+-- Build files have been written to: /cygdrive/d/NJU/luogu/2-22 BOSS 1/cmake-build-debug

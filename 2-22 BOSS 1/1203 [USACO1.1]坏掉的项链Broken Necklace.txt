@@ -1,0 +1,57 @@
+//阅读题解优化感悟：1.把输入存入string a,然后a = a+a+a,for(int i = n;i < 2*n ;i++)处理中间那段，即可解决头尾问题
+//                  2.可以用一个字符存储当前字符a[i]，另一个字符存储当前字符的下一个字符a[i+1]，分别向左向右一直循环，遇到w就continue，不一样就break
+#include <iostream>
+#include <algorithm>
+
+using namespace std;
+int ans = 0;
+int n;
+int a[352];
+int Next(int cur,int dire){
+    int next;
+    if(cur == 0 && dire == -1) next = n-1;
+    else if(cur == n-1 && dire == 1) next = 0;
+    else next = cur+dire;
+    return next;
+}
+int solve(int pos,int dire){
+    int cnt = 1;
+    int cur,next;
+    int note = 3;
+    int flag = 0;
+    cur = pos;
+    next = Next(cur,dire);
+    while(a[cur] + a[next] != 3 && !(a[cur] + a[next] == (15-note) && a[cur] != a[next]))
+    {
+        if(cnt == n) {cout << n;exit(0);}
+        if(!flag) {if(a[cur] + a[next] == 7 || a[cur] + a[next] == 8) {flag = 1;note = a[cur] + a[next];}}
+        cnt++;
+        cur = next;
+        next = Next(cur,dire);
+    }
+    return cnt;
+}
+int main() {
+    freopen("in.txt","r",stdin);
+    cin >> n;
+    char ch;
+    for (int i = 0; i < n; ++i) {
+        cin >> ch;
+        if(ch == 'r') a[i] = 1;
+        else if(ch == 'b') a[i] = 2;
+        else a[i] = 6;
+    }
+    for (int j = 0; j < n-1; ++j) {
+        int temp = 0;
+        temp+=solve(j+1,1);
+        temp+=solve(j,-1);
+        ans = max(temp,ans);
+    }
+    int tmp = 0;
+    tmp+=solve(0,1);
+    tmp+=solve(n-1,-1);
+    ans = max(ans,tmp);
+    if(ans > n) cout << n;
+    else cout << ans;
+    return 0;
+}

@@ -1,0 +1,125 @@
+#include<iostream>
+#include <cstring>
+#define id(x,y) (3*((x - 1)/3) + (y - 1)/3 + 1)
+using namespace std;
+int sudoku[11][11];
+int mark_row[11][11]; //mark_row[i][j]表示第i行是否已填过j这个数
+int mark_col[11][11];
+int mark_block[11][11];
+int cnt_row[11] = {0};//cnt_row[i]表示第i行填数的个数
+int cnt_col[11] = {0};
+int cnt_block[11] = {0};
+int cnt = 0;
+int record = -1;
+int mark[11][11] = {{6,6,6,6,6,6,6,6,6},{6,7,7,7,7,7,7,7,6},{6,7,8,8,8,8,8,7,6},{6,7,8,9,9,9,8,7,6},{6,7,8,9,10,9,8,7,6},
+                    {6,7,8,9,9,9,8,7,6},{6,7,8,8,8,8,8,7,6},{6,7,7,7,7,7,7,7,6},{6,6,6,6,6,6,6,6,6}};
+
+int calc(){
+    int ans = 0;
+    for (int i = 0; i < 9; ++i) {
+        for (int j = 0; j < 9; ++j) {
+            ans += sudoku[i+1][j+1] * mark[i][j];
+        }
+    }
+    return ans;
+}
+typedef struct _point {int x,y;}point;
+point choose_point()
+{
+    int tot = 0;
+    int temp_x,temp_y;
+    temp_x = temp_y = 1;
+    int tot_row = -1;
+    int tot_col = -1;
+    for (int i = 1; i <= 9; ++i) {
+        if (cnt_row[i] > tot_row && cnt_row[i] < 9) {temp_x = i;tot_row = cnt_row[i];}
+    }
+    for (int i = 1; i <= 9; ++i) {
+        if (cnt_col[i] > tot_col && !sudoku[temp_x][i]) {temp_y = i;tot_col = cnt_col[i];}
+    }
+    point tmp;
+    tmp.x = temp_x;tmp.y = temp_y;
+    return tmp;
+}
+
+//调试用
+void output(){
+    for (int i = 1; i <= 9; ++i) {
+        for (int j = 1; j <= 9; ++j) {
+            cout << sudoku[i][j] << " ";
+        }
+        cout << endl;
+    }
+    cout << "每行的填数个数：";
+    for (int k = 1; k <= 9; ++k) {
+        cout << cnt_row[k] << " ";
+    }
+    cout <<endl;
+    cout << "每列的填数个数：";
+    for (int k = 1; k <= 9; ++k) {
+        cout << cnt_col[k] << " ";
+    }
+    cout <<endl;
+    cout << "每个方格的填数个数：";
+    for (int k = 1; k <= 9; ++k) {
+        cout << cnt_block[k] << " ";
+    }
+    cout <<endl;
+    cout << "总填数个数：" << cnt << endl;
+    cout << endl;
+}
+
+void dfs(int x,int y){
+    if(cnt == 81){
+        int ans = calc();
+        if(ans > record) record = ans;
+        //cnt--;
+        //output();
+        return;
+    }
+    for (int i = 1; i <= 9; ++i) {
+        if(mark_row[x][i] || mark_col[y][i] || mark_block[id(x,y)][i]) continue;
+        mark_row[x][i] = mark_col[y][i] = mark_block[id(x,y)][i] = 1;
+        cnt_row[x]++;
+        cnt_col[y]++;
+        //cnt_block[3*((x-1)/3)+(y-1)/3+1]++;
+        sudoku[x][y] = i;
+        point next = choose_point();
+        cnt++;
+        //output();
+        dfs(next.x,next.y);
+        cnt--;
+        cnt_row[x]--;
+        cnt_col[y]--;
+        //cnt_block[id(x,y)]--;
+        sudoku[x][y] = 0;
+        mark_row[x][i] = mark_col[y][i] = 0;
+        //output();
+        mark_block[id(x,y)][i] = 0;
+    }
+}
+int main(){
+    freopen("in.txt","r",stdin);
+    memset(mark_block,0, sizeof(mark_block));
+    memset(mark_col,0, sizeof(mark_col));
+    memset(mark_row,0, sizeof(mark_row));
+    for (int i = 1; i <= 9; ++i) {
+        for (int j = 1; j <= 9; ++j) {
+            cin >> sudoku[i][j];
+            if(sudoku[i][j]){
+                cnt++;
+                mark_row[i][sudoku[i][j]] = 1;
+                mark_col[j][sudoku[i][j]] = 1;
+                mark_block[id(i,j)][sudoku[i][j]] = 1;
+                cnt_row[i]++;
+                cnt_col[j]++;
+                //cnt_block[id(i,j)]++;
+            }
+        }
+    }
+    //output();
+    point next = choose_point();
+    dfs(next.x,next.y);
+    cout << record;
+    return 0;
+}

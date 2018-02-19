@@ -1,0 +1,32 @@
+#include <iostream>
+#include <algorithm>
+
+using namespace std;
+typedef struct _apple{
+    int height,cost;
+}apple;
+bool cmp(apple a1,apple a2){
+    return a1.cost < a2.cost;
+}
+int main() {
+    //freopen("in.txt","r",stdin);
+    int n,strength;
+    cin >> n >> strength;
+    int aa,b;
+    cin >> aa >> b;
+    int height = aa + b;
+    apple a[5002];
+    for (int i = 0; i < n; ++i) {
+        cin >> a[i].height >> a[i].cost;
+    }
+    sort(a,a+n,cmp);
+    int cnt = 0;
+    for (int i = 0; i < n; ++i) {
+        if(a[i].height > height) continue;
+        strength -= a[i].cost;
+        if(strength < 0) break;
+        cnt++;
+    }
+    cout << cnt;
+    return 0;
+}

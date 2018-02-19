@@ -1,0 +1,19 @@
+#include <iostream>
+#include <string.h>
+using namespace std;
+int main() {
+    int v,n;
+    cin >> v >> n;
+    int volume[32],result[20002];
+    memset(result,0, sizeof(result));
+    for (int i = 1; i <= n; ++i) {
+        cin >> volume[i];
+    }
+    for (int i = 1; i <= n; ++i) {
+        for (int j = v; j >= volume[i]; --j) {
+            result[j] = max(result[j],result[j-volume[i]]+volume[i]);
+        }
+    }
+    cout << v-result[v] << endl;
+    return 0;
+}

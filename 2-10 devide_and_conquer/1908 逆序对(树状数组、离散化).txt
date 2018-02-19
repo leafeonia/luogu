@@ -1,0 +1,75 @@
+/*学习知识：离散化 树状数组
+    思路
+    按value排序
+    排好后value从大到小
+    如5 1 3 7 11 9
+    输入：
+    a[].value 5 1 3 7 11 9
+    a[].order 1 2 3 4 5 6
+.    排成
+    a[].value 11 9 7 5 3 1
+    a[].order 5 6 4 1 3 2
+    这时候依次加入更新、查询树状数组，因为加入的元素value值是从大到小的，所以先加入A[]的数一定比后加入的大，每次A[]加入新元素(其order = i)后，A[i] = 1,查询sum(i-1),即在A[]中第i位前已有多少个数被标记为1（即加入）过
+    c[]表示虚拟的A[]数组的树状数组
+    A[i]表示order为i的a中元素已被填过
+    加入a[1]：
+    虚拟的A[5] = 1；
+    c[5] = 1;
+    查询sum(4) = c[4] = 0;tot = 0;
+    c 0 0 0 0 1 0
+    A 0 0 0 0 1 0
+
+    加入a[2]:
+    A[6] = 1;
+    c[6] = 1;
+    查询sum(5) = c[4] + c[5] = 1,tot = 1;
+    c 0 0 0 0 1 1
+    A 0 0 0 0 1 1
+
+    加入a[3]:
+    A[4] = 1;
+    c[4] = 1;
+    查询sum()
+ */
+#include <iostream>
+#include <algorithm>
+
+using namespace std;
+typedef struct _node{
+    int val;
+    int order;
+}node;
+node a[40002];
+int c[40002];
+bool cmp(node n1,node n2){
+    return n1.val > n2.val;
+}
+int n;
+void add(int x){
+    for(;x <= n; x+=(x&-x)){
+        c[x]++;
+    }
+}
+int query(int x){
+    int sum = 0;
+    for(;x > 0;x-=(x&-x)){
+        sum+=c[x];
+    }
+    return sum;
+}
+int main(){
+    freopen("in.txt","r",stdin);
+    cin >> n;
+    for (int i = 1; i <= n; ++i) {
+        cin >> a[i].val;
+        a[i].order = i;
+    }
+    sort(a+1,a+n+1,cmp);
+    int tot = 0;
+    for (int j = 1; j <= n; ++j) {
+        add(a[j].order);
+        tot+=query(a[j].order-1);
+    }
+    cout << tot;
+    return 0;
+}
