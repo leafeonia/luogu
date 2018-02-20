@@ -9,7 +9,7 @@ node pond[2202][2202];
 using namespace std;
 int main() {
     freopen("in.txt","r",stdin);
-    ios::sync_with_stdio(false); //!!!åŠ äº†è¿™ä¸ªå°±è¿‡äº†ï¼è¿è¡Œæ—¶é—´ç¼©çŸ­ä¸€åŠï¼
+    ios::sync_with_stdio(false); //!!!¼ÓÁËÕâ¸ö¾Í¹ıÁË£¡ÔËĞĞÊ±¼äËõ¶ÌÒ»°ë£¡
     memset(pond,0,sizeof(pond));
     int n,m;
     short ans = 0;
@@ -60,7 +60,7 @@ int main() {
                     cnt++;
                 }
                 pond[i][j].rightdown = cnt;
-                if(pond[i][j].down <= ans) continue;//çŸ­è·¯ï¼Œdown <= ansæ—¶anså€¼ä¸å¯èƒ½è¢«æ›´æ–°
+                if(pond[i][j].down <= ans) continue;//¶ÌÂ·£¬down <= ansÊ±ansÖµ²»¿ÉÄÜ±»¸üĞÂ
                 temp = min(pond[i][j].down,pond[i][j].left);
                 temp = min(temp,pond[i][j].leftdown);
                 for (int k = 1; k < temp; ++k) {
