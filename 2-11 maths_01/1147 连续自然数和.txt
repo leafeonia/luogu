@@ -1,0 +1,19 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+int main() {
+    freopen("in.txt","r",stdin);
+    int n;
+    cin >> n;
+    int boundary = 0;
+    while(boundary+1 < 2 * n /(boundary+1)) boundary++;
+    for (int i = boundary; i > 1; --i) {
+        if(n%i == 0 && i%2 == 1 ){
+            cout << n/i - i/2 << " " << n/i + i/2 << endl;
+        }
+        if( n%i*2 == i ){
+            cout << n/i - i/2 + 1 << " " << n/i + i/2 << endl;
+        }
+    }
+    return 0;
+}

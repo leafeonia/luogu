@@ -1,0 +1,47 @@
+#include <iostream>
+#include <cmath>
+#include <stdlib.h>
+using namespace std;
+int weishu(int n,int base){
+    int ans;
+    if(n >= 0) ans = 1;
+    else ans = 2;
+    int num = 0;
+    num += ( -1 - base)*pow((-base),ans - 1);
+    while(abs(n) > abs(num)) {
+        ans += 2;
+        num += (-1 - base) * pow((-base), ans - 1);
+    }
+    return ans;
+}
+int result[22] = {0};
+int cnt = 0;
+int originweishu;
+char c[] ={'A','B','C','D','E','F','G','H','I','J'};
+void dfs(int n,int base,int weishu){
+    if(cnt == n){
+        cout << n << "=";
+        for (int i = originweishu; i >= 1; --i) {
+            if(result[i] >= 10) cout << c[result[i]-10];//题解优化:cout << result[i] - 10 + 'A'
+            else cout << result[i];
+        }
+        cout << "(base" << base << ")";
+        exit(0);
+    }
+    if(weishu == 0) return;
+    for (int i = abs(base) - 1; i >= 0; --i) {
+        cnt += i * pow(base,weishu - 1);
+        result[weishu] = i;
+        dfs(n,base,weishu - 1);
+        cnt -= i * pow(base,weishu - 1);
+        result[weishu] = 0;
+    }
+}
+int main() {
+    freopen("in.txt","r",stdin);
+    int n,base;
+    cin >> n >> base;
+    originweishu = weishu(n,base);
+    dfs(n,base,weishu(n,base));
+    return 0;
+}

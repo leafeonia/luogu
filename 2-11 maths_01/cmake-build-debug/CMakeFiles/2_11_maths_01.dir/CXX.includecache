@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/cygdrive/d/NJU/luogu/2-11 maths_01/main.cpp
+iostream
+-
+algorithm
+-
+cmath
+-
+vector
+-
+cstring
+-
+

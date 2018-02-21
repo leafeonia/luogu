@@ -1,0 +1,1 @@
+/usr/bin/c++.exe -g  -Wl,--enable-auto-import CMakeFiles/2_11_maths_01.dir/main.cpp.o  -o 2_11_maths_01.exe -Wl,--out-implib,lib2_11_maths_01.dll.a -Wl,--major-image-version,0,--minor-image-version,0 

@@ -1,0 +1,11 @@
+#include <iostream>
+using namespace std;
+int main() {
+    freopen("in.txt","r",stdin);
+    int n;
+    cin >> n;
+    int ans = 0;
+    for (int i = 1; i <= n; ++i) ans+=(n/i); 
+    cout << ans;
+    return 0;
+}
