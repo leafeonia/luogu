@@ -1,0 +1,66 @@
+#include <iostream>
+using namespace std;
+typedef struct _node{
+    int num;
+    _node *next;
+}node;
+int main() {
+    freopen("in.txt","r",stdin);
+    node *head = new node;
+    head->num = 1;
+    head->next = NULL;
+    int n,pos,lr;
+    cin >> n;
+    for (int i = 2; i <= n; ++i) {
+        node *student  = new node;
+        student->num = i;
+        cin >> pos >> lr;
+        node *temp = head;
+        if(temp->num == pos){
+            if(lr == 0) {
+                student->next = head;
+                head = student;
+            }
+            else{
+                if(head->next) student->next = head->next;
+                else student->next = NULL;
+                head->next = student;
+            }
+        }
+        else if(temp->num != pos) {
+            while(temp->next->num != pos) temp = temp->next;
+            if(lr == 0){
+                student->next = temp->next;
+                temp->next = student;
+            }
+            else {
+                if(!temp->next->next) student->next = NULL;
+                else student->next = temp->next->next;
+                temp->next->next = student;
+            }
+        }
+    }
+    int m,delnum;
+    cin >> m;
+    for (int j = 0; j < m; ++j) {
+        cin >> delnum;
+        node* temp = head;
+        if(temp->num ==delnum){
+            head = temp->next;
+            delete temp;
+        }
+        else {
+            while (temp->next && temp->next->num != delnum) temp = temp->next;
+            if(!temp->next) continue; //到头了链表中还找不到要删的数，说明已被删过，下面不执行了
+            node *next = temp->next;
+            if(!next->next) temp->next = NULL;
+            else temp->next = next->next;
+            delete next;
+        }
+    }
+    while(head!= NULL){
+        cout << head->num << " ";
+        head = head->next;
+    }
+    return 0;
+}

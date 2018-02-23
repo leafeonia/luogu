@@ -1,0 +1,35 @@
+#include <iostream>
+#include <deque>
+
+using namespace std;
+int bucket[100002];//bucket[i]±íÊ¾iµÄ´æ´¢Ë³Ðò
+int main() {
+    freopen("in.txt","r",stdin);
+    ios::sync_with_stdio(false);
+    deque<int> que;
+    que.push_front(1);
+    bucket[1] = 0;
+    int n,m,num,lr;
+    cin >> n;
+    for (int i = 2; i <= n; ++i) {
+        cin >> num >> lr;
+        if(lr){
+            que.insert(que.begin() + bucket[num] + 1,i);
+            for (int j = 1; j <= i; ++j) {
+                if(bucket[j] > bucket[num]) bucket[j]++;
+            }
+            bucket[i] = bucket[num] + 1;
+        }
+        else{
+            que.insert(que.begin() + bucket[num],i);
+            bucket[i] = bucket[num];
+            for (int j = 1; j <= i; ++j) {
+                if(bucket[j] >= bucket[num]) bucket[j]++;
+            }
+        }
+    }
+    for (int i = 0; i < n; ++i) {
+        cout << que[i] << " ";
+    }
+    return 0;
+}

@@ -1,0 +1,33 @@
+#include <iostream>
+#include <stack>
+using namespace std;
+int main() {
+    freopen("in.txt","r",stdin);
+    stack<int> q;
+    char ch;
+    int num = 0;
+    while(cin >> ch && ch != '@'){
+        if('0'<= ch  && ch <= '9') {
+            if(num == 0) num = ch -'0';
+            else num = num * 10 + (ch - '0');
+        }
+        else if(ch == '.'){q.push(num);num = 0;}
+        else{
+            int b,a,ans;
+            b = q.top();
+            q.pop();
+            a = q.top();
+            q.pop();
+            switch (ch)
+            {
+                case ('+'):ans = a + b;break;
+                case ('-'):ans = a - b;break;
+                case ('*'):ans = a * b;break;
+                case ('/'):ans = a / b;break;
+            }
+            q.push(ans);
+        }
+    }
+    cout << q.top();
+    return 0;
+}
