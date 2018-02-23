@@ -1,0 +1,23 @@
+#include <iostream>
+#include <cstring>
+#include <stdlib.h>
+#include <algorithm>
+
+using namespace std;
+int n,k;
+int ans[202][8];
+int main() {
+    freopen("in.txt","r",stdin);
+    cin >> n >> k;
+    memset(ans,0, sizeof(ans));
+    for (int i = 1; i <= n; ++i) {
+        ans[i][1] = 1;
+    }
+    for (int i = 2; i <= k; ++i) {
+        for (int j = i; j <= n; ++j) {
+            ans[j][i] = ans[j-1][i-1] + ans[j-i][i];
+        }
+    }
+    cout << ans[n][k];
+    return 0;
+}

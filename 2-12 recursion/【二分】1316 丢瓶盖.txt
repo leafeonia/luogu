@@ -1,0 +1,43 @@
+#include <iostream>
+#include <cstring>
+#include <stdlib.h>
+#include <queue>
+#include <algorithm>
+
+using namespace std;
+int n,m,l,r,mid;
+int a[100002];
+bool check(int rawlet){
+    int cur = a[0];
+    int num = 1;
+    for (int i = 1; i < n; ++i) {
+        if(a[i] - cur < rawlet) continue;
+        else {
+            cur = a[i];
+            num++;
+            if(num >= m) return true;
+        }
+    }
+    return false;
+}
+int main() {
+    //freopen("in.txt","r",stdin);
+    cin >> n >> m;
+    l = 1;
+    int minn = 100002;
+    int maxx = -1;
+    for (int i = 0; i < n; ++i) {
+        cin >> a[i];
+        minn = min(minn,a[i]);
+        maxx = max(maxx,a[i]);
+    }
+    r = (maxx - minn)/(m-1);
+    sort(a,a+n);
+    while(l < r){
+        mid = (l+r+1)>>1;
+        if(check(mid)) l = mid;
+        else r = mid - 1;
+    }
+    cout << l;
+    return 0;
+}

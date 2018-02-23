@@ -1,0 +1,1 @@
+/usr/bin/c++.exe -g  -Wl,--enable-auto-import CMakeFiles/2_12_recursion.dir/main.cpp.o  -o 2_12_recursion.exe -Wl,--out-implib,lib2_12_recursion.dll.a -Wl,--major-image-version,0,--minor-image-version,0 

@@ -1,0 +1,20 @@
+#include <iostream>
+#include <cstring>
+
+using namespace std;
+int main() {
+    freopen("in.txt","r",stdin);
+    int n,k;
+    long long int status[100102];
+    cin >> n >> k;
+    memset(status,0,sizeof(status));
+    status[0] = 1;
+    for (int i = 0; i < n; ++i) {
+        for (int j = 1; j <= k; ++j) {
+            status[i+j] += status[i];
+            if(status[i+j] > 100003) status[i+j] = status[i+j]%100003;
+        }
+    }
+    cout << status[n]%100003;
+    return 0;
+}

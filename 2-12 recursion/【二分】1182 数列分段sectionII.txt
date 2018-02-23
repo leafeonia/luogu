@@ -1,0 +1,36 @@
+#include <iostream>
+#include <cstring>
+#include <stdlib.h>
+#include <queue>
+using namespace std;
+int n,m,l,r,mid;
+int a[100002];
+bool check(int rawlet){
+    int tot = 0;
+    int ans = 0;
+    for (int i = 0; i < n; ++i) {
+        if(tot + a[i] <= rawlet) tot+=a[i];
+        else{
+            tot = a[i];
+            ans++;
+        }
+    }
+    return ans+1 <= m;
+}
+int main() {
+    //freopen("in.txt","r",stdin);
+    cin >> n >> m;
+    l = r =0;
+    for (int i = 0; i < n; ++i) {
+        cin >> a[i];
+        l = max(l,a[i]);
+        r += a[i];
+    }
+    while(l < r){
+        mid = (l + r)>>1;
+        if(check(mid))r = mid;
+        else l = mid+1;
+    }
+    cout << r;
+    return 0;
+}
