@@ -1,0 +1,54 @@
+//题解：分治思想，把中序遍历和后序遍历不停分割，成为子树的中序和后序，同等求解
+#include <iostream>
+#include <vector>
+#include <string>
+#include <cstring>
+
+using namespace std;
+vector<char> pre,in,post;
+bool search_right_in_inorder(char root,char num){
+    int rootindex_in_inorder;
+    for (int j = 0; j < in.size(); ++j) {
+        if(in[j] == root){
+            rootindex_in_inorder = j;
+            break;
+        }
+    }
+    for (int i = rootindex_in_inorder; i < in.size(); ++i) {
+        if(in[i] == num) return true;
+    }
+    return false;
+}
+int visited[12];
+bool vis_all(int index){
+    for (int i = 0; i < index; ++i) {
+        if(!visited[i]) return false;
+    }
+    return true;
+}
+void solve(int index){
+    if(!visited[index])cout << post[index];
+    visited[index] = 1;
+    if(vis_all(index))return;
+    int left_index = index - 1;
+    while(search_right_in_inorder(post[index],post[left_index])) left_index--;
+    solve(left_index);
+    int right_index = index - 1;
+    solve(right_index);
+}
+int main() {
+    freopen("in.txt","r",stdin);
+    memset(visited,0,sizeof(visited));
+    string s;
+    getline(cin,s);
+    for (int i = 0; i < s.length(); ++i) {
+        in.push_back(s[i]);
+    }
+    getline(cin,s);
+    for (int i = 0; i < s.length(); ++i) {
+        post.push_back(s[i]);
+    }
+    int index = post.size() - 2; //s最后会跟个'\r'，要消除其影响
+    solve(index);
+    return 0;
+}

@@ -1,0 +1,34 @@
+#include <iostream>
+using namespace std;
+typedef struct _node{
+    char info,p,l,r;
+}node;
+node t[28];
+void preParse(char cur){
+    if(cur == '*') return;
+    else cout << t[cur - 'a'].info;
+    preParse(t[cur - 'a'].l);
+    preParse(t[cur - 'a'].r);
+}
+int main() {
+    freopen("in.txt","r",stdin);
+    int n;
+    cin >> n;
+    char ch,l,r,root;
+    for (int j = 0; j < 26; ++j) {
+        t[j].p = '*';
+    }
+    for (int i = 0; i < n; ++i) {
+        cin >> ch >> l >> r;
+        t[ch - 'a'].info = ch;
+        t[ch - 'a'].l = l;
+        t[ch - 'a'].r = r;
+        if(l != '*') t[l - 'a'].p = ch;
+        if(r != '*') t[r - 'a'].p = ch;
+    }
+    for (int i = 0; i < n; ++i) {
+        if(t[i].p  == '*' && t[i].info) root = i + 'a';
+    }
+    preParse(root);
+    return 0;
+}

@@ -1,0 +1,1 @@
+/usr/bin/c++.exe -g  -Wl,--enable-auto-import CMakeFiles/2_14_tree.dir/main.cpp.o  -o 2_14_tree.exe -Wl,--out-implib,lib2_14_tree.dll.a -Wl,--major-image-version,0,--minor-image-version,0 
