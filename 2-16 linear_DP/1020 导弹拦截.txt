@@ -1,0 +1,132 @@
+/*
+ * http://blog.csdn.net/yhn19951008/article/details/48395159
+ 在Partially order set(偏序集)有一个非常NX的定理叫DilworthTheorem。上图是偏序集的一个Hasse diagram，偏序集的定义是
+
+偏序是在集合X上的二元关系≤，它满足自反性、反对称性和传递性。即，对于X中的任意元素a,b和c，有:
+自反性：a≤a;
+反对称性：如果a≤b且b≤a，则有a=b;
+传递性：如果a≤b且b≤c，则a≤c 。
+
+带有偏序关系的集合称为偏序集。
+令(X,≤)是一个偏序集，对于集合中的两个元素a、b，如果有a≤b或者b≤a，则称a和b是可比的，否则a和b不可比。
+在X中，对于元素a，如果任意元素b，由b≤a得出b=a，则称a为极小元。
+
+一个反链A是X的一个子集，它的任意两个元素都不能进行比较。
+一个链C是X的一个子集，它的任意两个元素都可比。
+
+下面是两个重要定理：
+定理1令（X,≤）是一个有限偏序集，并令r是其最大链的大小。则X可以被划分成r个但不能再少的反链。
+其对偶定理称为Dilworth定理：
+定理2 令（X,≤）是一个有限偏序集，并令m是反链的最大的大小。则X可以被划分成m个但不能再少的链。
+
+搞清楚了反链和链的定义，就能够很好的从HasseDiagram中得到理解。链就是从纵向的角度看 Hasse Diagram ,反链是从横向的角度看HasseDiagram。
+
+定理一，就是至少有r行构成反链关系。
+
+定理二，就是至少有m列构成链关系。
+
+  我们来考虑一个导弹拦截问题，就是求一个序列的最长不上升子序列，以及求能最少划分成几组不上升子序列。很显然第一个是动态规划，动态规划的过程就是求HasseDiagram的过程！！！
+
+  第二问就是求最少能够划分成几个链，根据定理2，很显然就是反链的最大长度。反链就是一个上升子序列。即求一个严格上升子序列的最大长度。
+
+  注意一个问题是，在获得偏序集有几个主链的时候，需要对数据集先进行排序，然后从头开始，沿着主链顺序DFS。由于导弹拦截的问题，天然有序，形成了严格上升自序列，所以没有凸显这个问题！
+ =======================================================================
+ http://blog.csdn.net/acdreamers/article/details/7626671
+ 【定理】
+
+在X中，对于元素a，如果任意元素b，都有a≤b，则称a为极小元。
+
+定理1：令（X,≤）是一个有限偏序集，并令r是其最大链的大小。则X可以被划分成r个但不能再少的反链。
+
+
+
+其对偶定理称为Dilworth定理：
+
+令（X,≤）是一个有限偏序集，并令m是反链的最大的大小。则X可以被划分成m个但不能再少的链。
+
+虽然这两个定理内容相似，但第一个定理证明要简单一些。此处就只证明定理1。
+
+
+
+证明：设p为最少反链个数
+
+(1)先证明X不能划分成小于r个反链。由于r是最大链C的大小，C中任两个元素都可比，因此C中任两个元素都不能属于同一反
+
+链。所以p>=r。
+
+(2)设X1＝X，A1是X1中的极小元的集合。从X1中删除A1得到X2。注意到对于X2中任意元素a2，必存在X1中的元素a1，使得
+
+a1<=a2。令A2是X2中极小元的集合，从X2中删除A2得到X3……，最终会有一个Xk非空而Xk+1为空。于是A1,A2,…,Ak就是X的
+
+反链的划分，同时存在链a1<=a2<=…<=ak，其中ai在Ai内。由于r是最长链大小，因此r>=k。由于X被划分成了k个反链，因此
+
+r>=k>=p。
+
+(3)因此r=p，定理1得证。
+ */
+
+#include <iostream>
+#include <vector>
+#include <string>
+#include <cstring>
+#define INF 1000000
+using namespace std;
+int lis[100002],lds[100002]; //lds[i]表示长度为i+1的lds的最大结尾数
+vector<int> missile;
+int check(int num){
+    int l = 0;
+    int r = missile.size();
+    while(l != r){
+        int mid = (l+r)/2;
+        if(lds[mid] < num) r = mid;
+        else l = mid + 1;
+    }
+    return l;
+}
+int check_2(int num){
+    int l = 0;
+    int r = missile.size();
+    while(l != r){
+        int mid = (l+r)/2;
+        if(lis[mid] >= num) r = mid;
+        else l = mid + 1;
+    }
+    return l;
+}
+int main(){
+    freopen("in.txt","r",stdin);
+    ios:: sync_with_stdio(false);
+    int n;
+    int length = 0;
+    while(cin >> n) missile.push_back(n);
+
+    for (int i = 0; i <= missile.size(); ++i) {
+        lds[i] = 0;
+        lis[i] = INF;
+    }
+    for (int i = 0; i < missile.size(); ++i) {
+        int j = check(missile[i]);
+        if(j == 0) lds[j] = max(lds[j],missile[i]);
+        else {
+            if (lds[j-1] >= missile[i]) lds[j] = max(missile[i],lds[j]);
+        }
+    }
+    while(lds[length] != 0) length++;
+    cout << length << endl;
+
+    for (int i = 0; i < missile.size(); ++i) {
+        *lower_bound(lis,lis+missile.size(),missile[i]) = missile[i];
+    }
+    cout << lower_bound(lis,lis+missile.size(),INF) - lis;
+    /*length = 0;
+    for (int i = 0; i < missile.size(); ++i) {
+        int j = check_2(missile[i]);
+        if(j == 0) lis[j] = min(lis[j],missile[i]);
+        else {
+            if (lis[j-1] < missile[i]) lis[j] = min(missile[i],lis[j]);
+        }
+    }
+    while(lis[length] != INF) length++;
+    cout << length;*/
+    return 0;
+}

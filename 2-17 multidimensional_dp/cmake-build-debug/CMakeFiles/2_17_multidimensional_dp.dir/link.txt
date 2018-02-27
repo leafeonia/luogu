@@ -1,0 +1,1 @@
+/usr/bin/c++.exe -g  -Wl,--enable-auto-import CMakeFiles/2_17_multidimensional_dp.dir/main.cpp.o  -o 2_17_multidimensional_dp.exe -Wl,--out-implib,lib2_17_multidimensional_dp.dll.a -Wl,--major-image-version,0,--minor-image-version,0 

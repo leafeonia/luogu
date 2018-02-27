@@ -1,0 +1,31 @@
+#include <iostream>
+#include <cstring>
+
+using namespace std;
+int main() {
+   // freopen("in.txt","r",stdin);
+    int n,m;
+    cin >> n >> m;
+    int a[102][102];
+    int dp[102][102]; //dp[i][j]表示第i行j列点为右下顶点的最大正方形边长
+    memset(dp,0, sizeof(dp));
+    for (int i = 1; i <= n; ++i) {
+        for (int j = 1; j <= m; ++j) {
+            cin >> a[i][j];
+        }
+    }
+    for (int i = 1; i <= n; ++i) {
+        for (int j = 1; j <= m; ++j) {
+            if(a[i][j] == 0) dp[i][j] = 0;
+            else dp[i][j] = min(min(dp[i][j-1],dp[i-1][j]),dp[i-1][j-1])+1;
+        }
+    }
+    int ans = 0;
+    for (int i = i; i <= n; ++i) {
+        for (int j = 1; j <= m; ++j) {
+            ans = max(ans,dp[i][j]);
+        }
+    }
+    cout << ans;
+    return 0;
+}

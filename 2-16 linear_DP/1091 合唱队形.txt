@@ -1,0 +1,36 @@
+#include <iostream>
+using namespace std;
+int main(){
+    freopen("in.txt","r",stdin);
+    ios:: sync_with_stdio(false);
+    int n;
+    int ans = 0;
+    int choros[102];
+    cin >> n;
+    int length = 0;
+    for (int i = 0; i < n; ++i) {
+        cin >> choros[i];
+    }
+    int lis[102],reverse_lis[102];
+    for (int i = 0; i < n; ++i) {
+        lis[i] = reverse_lis[i] = 1;
+    }
+    for (int i = 1; i < n; ++i) {
+        for (int j = 0; j < i; ++j) {
+            if(choros[j] < choros[i]) lis[i] = max(lis[i],lis[j]+1);
+        }
+    }
+    for (int i = 0; i < n/2; ++i) {
+        swap(choros[i],choros[n-i-1]);
+    }
+    for (int i = 1; i < n; ++i) {
+        for (int j = 0; j < i; ++j) {
+            if(choros[j] < choros[i]) {reverse_lis[i] = max(reverse_lis[i],reverse_lis[j]+1);}
+        }
+    }
+    for (int i = 0; i < n; ++i) {
+        ans = max(ans,lis[i]+reverse_lis[n-1-i]);
+    }
+    cout << n - ans + 1;
+    return 0;
+}
