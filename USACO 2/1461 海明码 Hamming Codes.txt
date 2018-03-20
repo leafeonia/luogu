@@ -1,0 +1,39 @@
+#include <iostream>
+#include <cmath>
+
+using namespace std;
+int ans[66];
+int d;
+bool judge(int a,int b){
+    int x = a^b;
+    /*if(__builtin_popcount(x) < d) return false;
+    return true;*/
+    int cnt = 0;
+    while(x > 0){
+        cnt++;
+        x -= x&(-x);
+    }
+    if(cnt < d) return false;
+    return true;
+}
+int main(){
+
+    int n,b;
+    cin >> n >> b >> d;
+    int num = 0;
+    for (int i = 0; i < pow(2,b); ++i) {
+        int flag = 1;
+        for (int j = 0; j < num; ++j) {
+            if(!judge(ans[j],i)){
+                flag = 0;
+                break;
+            }
+        }
+        if(flag) ans[num++] = i;
+    }
+    for (int i = 0; i < n; ++i) {
+        if(i % 10 == 0 && i > 0) cout << endl;
+        cout << ans[i] << " ";
+    }
+    return 0;
+}
